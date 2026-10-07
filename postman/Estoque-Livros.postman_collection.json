@@ -1,0 +1,43 @@
+{
+  "info": {
+    "name": "Estoque de Livros - Trabalho II (PostgreSQL)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/livros" },
+    { "key": "id", "value": "4" }
+  ],
+  "item": [
+    {
+      "name": "1. Cadastrar livro (sem ID)",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "if (pm.response.code === 201) { pm.collectionVariables.set('id', pm.response.json().id); }"
+        ]}
+      }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Dom Casmurro\",\n  \"autor\": \"Machado de Assis\",\n  \"categoria\": \"Romance\",\n  \"preco\": 39.90\n}" },
+        "url": "{{baseUrl}}"
+      }
+    },
+    { "name": "2. Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}" } },
+    { "name": "3. Buscar por ID", "request": { "method": "GET", "url": "{{baseUrl}}/{{id}}" } },
+    {
+      "name": "4. Atualizar",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Dom Casmurro\",\n  \"autor\": \"Machado de Assis\",\n  \"categoria\": \"Romance\",\n  \"preco\": 34.90\n}" },
+        "url": "{{baseUrl}}/{{id}}"
+      }
+    },
+    { "name": "5. Filtro: autor", "request": { "method": "GET", "url": "{{baseUrl}}?autor=J.R.R. Tolkien" } },
+    { "name": "6. Filtro: categoria", "request": { "method": "GET", "url": "{{baseUrl}}?categoria=Fantasia" } },
+    { "name": "7. Filtro: precoMaximo", "request": { "method": "GET", "url": "{{baseUrl}}?precoMaximo=50" } },
+    { "name": "8. Filtros combinados (3)", "request": { "method": "GET", "url": "{{baseUrl}}?autor=J.R.R. Tolkien&categoria=Fantasia&precoMaximo=70" } },
+    { "name": "9. Excluir", "request": { "method": "DELETE", "url": "{{baseUrl}}/{{id}}" } }
+  ]
+}
